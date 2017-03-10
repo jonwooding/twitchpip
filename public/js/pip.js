@@ -2,7 +2,7 @@ angular.module('pipApp', ['ngRoute', 'ngResource'])
 
 	.config(function($routeProvider, $locationProvider) {
 		$routeProvider
-			.when('/home', {
+			.when('/', {
 				controller: 'HomeController',
 				template: '../partials/home-partial.html'
 			})
@@ -24,32 +24,32 @@ angular.module('pipApp', ['ngRoute', 'ngResource'])
 
 		$locationProvider.html5Mode({
 			enabled: true,
-			requiteBase: false
+			requireBase: false
 		});
 	})
 
-	.controller('GlobalController', ['$scope',
-		function($scope) {
+	.controller('GlobalController', ['$scope', '$http',
+		function($scope, $http) {
 
 		}
 	])
-	.controller('HomeController', ['$scope',
-		function($scope) {
+	.controller('HomeController', ['$scope', '$http',
+		function($scope, $http) {
 			$scope.message = "i'm home";
 		}
 	])
-	.controller('AboutController', ['$scope',
-		function($scope) {
+	.controller('AboutController', ['$scope', '$http',
+		function($scope, $http) {
 			$scope.message = "i'm about";
 		}
 	])
-	.controller('DonateController', ['$scope',
-		function($scope) {
+	.controller('DonateController', ['$scope', '$http',
+		function($scope, $http) {
 			$scope.message = "i'm money";
 		}
 	])
-	.controller('ContactController', ['$scope',
-		function($scope) {
+	.controller('ContactController', ['$scope', '$http',
+		function($scope, $http) {
 			$scope.message = "contact here";
 		}
 	])
