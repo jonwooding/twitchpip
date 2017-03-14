@@ -1,0 +1,6 @@
+port to angular
+
+	convert everything to angular js e.g. keypress on input with ng-keydown
+	focus with ng-mouseenter and ng-mouseleave etc etc 
+
+	hide with ng-hide=BOOLVARIABLE
