@@ -3,4 +3,36 @@ port to angular
 	convert everything to angular js e.g. keypress on input with ng-keydown
 	focus with ng-mouseenter and ng-mouseleave etc etc 
 
-	hide with ng-hide=BOOLVARIABLE
+
+some visual stuff
+
+continued port to angular -- can we use blur to catch mouse events in iframes
+
+rework logo a bit
+
+color scheme
+
+should we port to angular material and ditch bootstrap
+
+whats the best way to organize script loading (performance)
+
+make other pages
+
+twitch oauth thing for api
+
+utilize twitch search bar for auto-completion (if its in the api)
+	clear after search complete
+	add click event to div frame which refocuses input and inserts comma
+
+share streams w/ friends
+	encode that into the url
+
+handle UTF characters -- right now korean streams are blocked
+
+DO WE WANT TO DROP ALL PREVIOUS STREAMS ON A NEW STREAM LOAD?
+
+semi-responsiveness
+	responsiveness issue is when switching layout from col and row but not
+	changing flex % size
+
+favicon

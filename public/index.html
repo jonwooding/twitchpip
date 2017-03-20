@@ -1,4 +1,4 @@
-<html lang="en" ng-app="pipApp" ng-cloak>
+<html lang="en" ng-app="pipApp" ng-cloak ng-init="page_state=0; tab_state=0;">
 
 <head>
 	<meta charset="utf-8">
@@ -17,17 +17,7 @@
 
 	<link rel="stylesheet" href="css/angular-material.min.css">
 
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]> -->
-	<!--<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
-
 	<script src="js/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.min.js"></script>
 
 	<!-- Font Awesome -->
 	<script src="https://use.fontawesome.com/a34fa02b8b.js"></script>
@@ -39,11 +29,16 @@
 		.ng-cloak {
 			display: none;
 		}
+		/* TODO set this to page bkg */
+		
+		html {
+			background-color: black;
+		}
 	</style>
 
 </head>
 
-<body ng-controller="GlobalController">
+<body ng-controller="HomeController" ng-blur="blurEvent($event)">
 
 	<style>
 		.navbar .navbar-nav {
@@ -59,15 +54,94 @@
 		iframe {
 			margin-left: -15px;
 		}
+		
+		.preview_wrapper {
+			position: relative;
+		}
+		
+		.preview_container {
+			padding-left: 1em;
+			padding-right: 1em;
+			/*height: 275px;*/
+			width: 100%;
+			display: none;
+			position: absolute;
+			background-color: #484e55;
+			box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 1);
+			z-index: 1;
+		}
+		
+		input:focus+div.preview_container {
+			display: block;
+		}
+		
+		.preview_container:hover {
+			display: block;
+		}
+		
+		.preview_thumb:hover {
+			background-color: #222222;
+			cursor: pointer;
+			box-shadow: 0 0 3px 2px rgba(0, 140, 186, 0.5);
+		}
+		
+		.preview_thumb:hover .preview_img {
+			transform: scale(1.1);
+		}
+		
+		.preview_thumb:hover .preview_text {
+			transform: scale(1.1);
+		}
+		
+		.preview_thumb:hover .preview_logo {
+			transform: scale(1.1);
+		}
+		
+		.preview_thumb {
+			margin-top: 1em;
+			margin-bottom: 1em;
+			padding-left: 1em;
+			padding-right: 1em;
+			overflow: hidden;
+		}
+		
+		.preview_logo {
+			margin-top: 3px;
+		}
+		
+		.preview_text {
+			margin-top: 3px;
+			white-space: nowrap;
+			overflow: hidden;
+			padding-left: 1em;
+		}
+		
+		.preview_img {
+			padding-top: 1em;
+			padding-bottom: 2em;
+			margin-top: 1em;
+			margin-bottom: 1em;
+		}
+		
+		md-tooltip {
+			background-color: white;
+		}
+		
+		.nav-tabs li div {
+			padding-right: 10px;
+			margin-right: 10px;
+			padding-left: 10px;
+			margin-left: 10px;
+		}
 	</style>
 
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<!-- Need to move to bootstrap v4 and use hide-able responsive divs if we want logo center and mobile responsive -->
 	<div class="container">
-		<nav class="navbar navbar-default" role="navigation">
+		<nav class="navbar navbar-default" role="navigation ">
 
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse ">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -76,50 +150,125 @@
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse navbar-ex1-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="/">Watch</a></li>
-					<li><a href="/about">About</a></li>
-					<li><img src="img/logo.png" style="margin-top: 3px;"></li>
-					<li><a href=" /contact ">Contact</a></li>
-					<li><a href="/donate ">Donate</a></li>
+			<div class="collapse navbar-collapse navbar-ex1-collapse ">
+				<ul class="nav navbar-nav ">
+					<li ng-click="page_state = 0"><a href="#">Watch</a></li>
+					<li ng-click="page_state = 1"><a href="#">About</a></li>
+					<li><img src="img/logo.png " style="margin-top:3px;"></li>
+					<li ng-click="page_state = 2"><a href="#">Contact</a></li>
+					<li ng-click="page_state = 3"><a href="#">Donate</a></li>
 				</ul>
 			</div>
 		</nav>
 	</div>
 
-	<!--<md-nav-bar md-selected-nav-item="currentNavItem">
-		<md-nav-item md-nav-click="goto('page1')" name="page1">
-			Page One
-		</md-nav-item>
-		<md-nav-item md-nav-href="#page2" name="page3">Page Two</md-nav-item>
-		<md-nav-item md-nav-sref="page3" name="page2">Page Three</md-nav-item>
-		<md-nav-item md-nav-sref="app.page4" sref-opts="{reload: true, notify: true}" name="page4">
-			Page Four
-		</md-nav-item>
-	</md-nav-bar>-->
-
-
 	<!--PARTIALS-->
-	<div class="container-fluid ">
-		<div ng-view></div>
+	<div class="container-fluid" ng-hide="page_state != 0">
+		<p style="text-align:center">Click on a stream window on the right to switch it with the stream in the center. More detailed info available on the About
+			page.
+		</p>
+		<div class="preview_wrapper">
+			<!--input form-->
+			<!--<span class="input-group-addon" id="basic-addon3">Streams</span>-->
+			<input flex="50" type="text" class="form-control" id="streams" aria-describedby="basic-addon3" placeholder="Enter up to four streams separated by commas. 'steel_tv, esl_csgo, etc.'">
+			<!--NEW HOVER THING-->
+			<div class="preview_container">
+				<div layout="row" layout-align="space-between center">
+					<div class="preview_thumb" flex="20" layout="column" ng-repeat="preview in previews" ng-click="previewClickEvent(preview)"
+					    layout-align="space-around center">
+						<!--<div class="preview_mo_wrapper" flex ng-mouseenter="mo=true" ng-mouseleave="mo=false">-->
+						<div layout="row" flex="none">
+							<div class="preview_logo"><img ng-src="{{preview.channel.logo}}" width="20px" height="20px" /> </div>
+							<div class="preview_text">{{preview.channel.display_name}}</div>
+						</div>
+						<div class="preview_img" style="background:url({{preview.preview.medium}}) no-repeat center center;overflow:hidden;height:180;width:320;"></div>
+						<!--<div class="preview_img" flex><img ng-src="{{preview.preview.medium}}" /></div>-->
+						<!--</div>-->
+						<md-tooltip>{{preview.channel.display_name}} playing {{preview.channel.game}}</md-tooltip>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="player_body" layout="row" layout-sm="column" layout-margin>
+			<div layout="column" flex-gt-sm="75" flex="100">
+				<div hide-sm flex>
+					<h3 style="text-align:center" ng-if="players[0].channel" word-wrap="false">{{players[0].channel}}: {{players[0].title}}</h3>
+					<h3 style="text-align:center" ng-if="!players[0].channel">No streams loaded, use the search bar</h3>
+				</div>
+				<div id="player0" flex ng-mouseenter="player0_enter" ng-mouseleave="player0_leave">
+				</div>
+			</div>
+
+			<div flex-gt-sm="25" flex="80" id="rs_tabs">
+				<div class="rs_header">
+					<h3>
+						<ul class="nav nav-tabs">
+							<li ng-click="tab_state=0">
+								<div style="background-color:#ffffff" ng-hide="tab_state!=0">Streams</div>
+								<div style="background-color:#000000" ng-hide="tab_state==0">Streams</div>
+							</li>
+							<li ng-click="tab_state=1">
+								<div style="background-color:#ffffff" ng-hide="tab_state!=1">Chat</div>
+								<div style="background-color:#000000" ng-hide="tab_state==1">Chat</div>
+							</li>
+						</ul>
+					</h3>
+				</div>
+				<div class="rs_tab" ng-hide="tab_state!=0" id="rs_stream_tab" layout="column">
+					<div flex id="player1"></div>
+					<div flex id="player2"></div>
+					<div flex id="player3"></div>
+				</div>
+
+				<div class="rs_tab" ng-hide="tab_state!=1" id="chat_tab">
+					<iframe frameborder="<frameborder width>" scrolling="false" id="chat" src="http://twitch.tv/jonwooding/chat" height="600"
+					    width="300">
+					</iframe>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="container" ng-hide="page_state != 1">
+		<h1>TwitchPIP</h1>
+		<p>
+			TwitchPIP is designed to be the simplest and most useful Twitch multistream website. The single feature that TwitchPIP offers
+			over other multistream websites is the ability to seamlessly transition between a main stream and multiple auxillary streams
+			with a single click. The main stream in focus will be, by default, at max quality and unmuted while the auxillary streams
+			will be at low quality and muted.
+		</p>
+	</div>
+	<div class="container" ng-hide="page_state != 2">
+		<h1>Contact</h1>
+		<h3>Bug reports // Suggestions</h3>
+		<p>Please send any bug reports or suggestions to twitchpip@gmail.com</p>
+	</div>
+	<div class="container" ng-hide="page_state != 3">
+		<h1>Donations</h1>
+		<p>TwitchPIP is funded by generous donations. If you enjoy the service please consider making a donation. All donations are
+			greatly appreciated, no matter how small.
+		</p>
+		<!--donate shit here-->
 	</div>
 
 
 	<!-- Load Angular Initially -->
-	<script src="js/angular-animate.min.js"></script>
-	<script src="js/angular-aria.min.js"></script>
-	<script src="js/angular-messages.min.js"></script>
+	<script src="js/angular-animate.min.js "></script>
+	<script src="js/angular-aria.min.js "></script>
+	<script src="js/angular-messages.min.js "></script>
 	<!-- Angular Material Library -->
-	<script src="js/angular-material.min.js"></script>
+	<script src="js/angular-material.min.js "></script>
 	<!-- Our js -->
-	<script src="js/pip.js"></script>
+	<script src="js/pip.js "></script>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js "></script>
 	<script>
 		window.jQuery || document.write('<script src="js/jquery.js "><\/script>')
 	</script>
 	<script src="js/bootstrap.min.js "></script>
+
 
 </body>
 
